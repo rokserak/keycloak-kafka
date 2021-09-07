@@ -1,7 +1,7 @@
 FROM quay.io/keycloak/keycloak:15.0.2
 
 WORKDIR /code/
-COPY ./keycloak-kafka/ .
+COPY . .
 
 # root needed to install maven
 USER 0
@@ -34,7 +34,7 @@ ENV KEYCLOAK_USER=keycloak_admin
 ENV KEYCLOAK_PASSWORD=test1234
 
 ENV DEBUG=ALL
-ENV JAVA_TOOLS_OPTS="-Djboss.as.management.blocking.timeout=3600"
+ENV JAVA_TOOLS_OPTS="-Djboss.as.management.blocking.timeout=300"
 
 # for development just use default H2 in-memory DB instance
 
