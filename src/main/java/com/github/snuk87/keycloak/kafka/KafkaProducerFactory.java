@@ -22,7 +22,17 @@ public final class KafkaProducerFactory {
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-		optionalProperties.forEach(props::put);
+		String securityProtocol = System.getenv("KAFKA_SECURITY_PROTOCOL");
+		props.put("security.protocol", securityProtocol);
+		if (securityProtocol.equals("SSL")) {
+			props.put("ssl.truststore.location", System.getenv("KAFKA_SSL_TRUSTSTORE_FILENAME"));
+			props.put("ssl.truststore.password", System.getenv("KAFKA_SSL_TRUSTSTORE_PASSWORD"));
+			props.put("ssl.keystore.location", System.getenv("KAFKA_SSL_KEYSTORE_FILENAME"));
+			props.put("ssl.keystore.password", System.getenv("KAFKA_SSL_KEYSTORE_PASSWORD"));
+			props.put("ssl.key.password", System.getenv("KAFKA_SSL_KEY_PASSWORD"));
+		}
+
+		props.putAll(optionalProperties);
 
 		// fix Class org.apache.kafka.common.serialization.StringSerializer could not be
 		// found. see https://stackoverflow.com/a/50981469

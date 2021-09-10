@@ -8,5 +8,11 @@ if (outcome != success) of /subsystem=keycloak-server/spi=eventsListener:read-re
     /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.bootstrapServers,value=${env.KAFKA_BOOTSTRAP_SERVERS})
     /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.events,value=${env.KAFKA_EVENTS})
     /subsystem=keycloak-server/spi=eventsListener/provider=kafka:map-put(name=properties,key=max.block.ms,value=10000)
+    /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.security.protocol,value=${env.KAFKA_SECURITY_PROTOCOL})
+    /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.ssl.truststore.location,value=${env.KAFKA_SSL_TRUSTSTORE_FILENAME})
+    /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.ssl.truststore.password,value=${env.KAFKA_SSL_TRUSTSTORE_PASSWORD})
+    /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.ssl.keystore.location,value=${env.KAFKA_SSL_KEYSTORE_FILENAME})
+    /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.ssl.keystore.password,value=${env.KAFKA_SSL_KEYSTORE_PASSWORD})
+    /subsystem=keycloak-server/spi=eventsListener/provider=kafka:write-attribute(name=properties.ssl.key.password,value=${env.KAFKA_SSL_KEY_PASSWORD})
 end-if
 stop-embedded-server

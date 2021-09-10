@@ -69,6 +69,39 @@ public class KafkaEventListenerProviderFactory implements EventListenerProviderF
 			events[0] = "REGISTER";
 		}
 
+		String securityProtocol = config.get("security.protocol", System.getenv("KAFKA_SECURITY_PROTOCOL"));
+		String sslTruststoreFilename = config.get("ssl.truststore.location", System.getenv("KAFKA_SSL_TRUSTSTORE_FILENAME"));
+		String sslTruststorePassword = config.get("ssl.truststore.password", System.getenv("KAFKA_SSL_TRUSTSTORE_PASSWORD"));
+		String sslKeystoreFilename = config.get("ssl.keystore.location", System.getenv("KAFKA_SSL_KEYSTORE_FILENAME"));
+		String sslKeystorePassword = config.get("ssl.keystore.password", System.getenv("KAFKA_SSL_KEYSTORE_PASSWORD"));
+		String sslKeyPassword = config.get("ssl.key.password", System.getenv("KAFKA_SSL_KEY_PASSWORD"));
+
+		if (securityProtocol == null) {
+			throw new NullPointerException("security.protocol must be set, set it to PLAINTEXT if you want no encryption");
+		}
+
+		if (securityProtocol.equals("SSL")) {
+			if (sslTruststoreFilename == null) {
+				throw new NullPointerException("ssl.truststore.filename must be set when security.protocol == SSL");
+			}
+
+			if (sslTruststorePassword == null) {
+				throw new NullPointerException("ssl.truststore.password must be set when security.protocol == SSL");
+			}
+
+			if (sslKeystoreFilename == null) {
+				throw new NullPointerException("ssl.keystore.filename must be set when security.protocol == SSL");
+			}
+
+			if (sslKeystorePassword == null) {
+				throw new NullPointerException("ssl.keystore.password must be set when security.protocol == SSL");
+			}
+
+			if (sslKeyPassword == null) {
+				throw new NullPointerException("ssl.key.password must be set when security.protocol == SSL");
+			}
+		}
+
 		kafkaProducerProperties = KafkaProducerConfig.init(config);
 	}
 

@@ -29,14 +29,22 @@ ENV KAFKA_BOOTSTRAP_SERVERS=kafka:29092
 ENV KAFKA_EVENTS=LOGIN,REGISTER,LOGOUT,CODE_TO_TOKEN,REFRESH_TOKEN,SOCIAL_LINK,REMOVE_SOCIAL_LINK,UPDATE_EMAIL,UPDATE_PROFILE,SEND_PASSWORD_RESET,UPDATE_TOTP,REMOVE_TOTP,SEND_VERIFT_EMAIL,VERIFY_EMAIL
 ENV KAFKA_ADMIN_TOPIC=keycloak_admin_event
 
+# Kafka SSL connection settings
+ENV KAFKA_SECURITY_PROTOCOL=SSL
+# truststore and keystore files need to be generated
+ENV KAFKA_SSL_TRUSTSTORE_FILENAME=/opt/jboss/keycloak/standalone/configuration/keystores/kafka.keycloak.truststore.jks
+ENV KAFKA_SSL_TRUSTSTORE_PASSWORD=confluent
+ENV KAFKA_SSL_KEYSTORE_FILENAME=/opt/jboss/keycloak/standalone/configuration/keystores/kafka.keycloak.keystore.jks
+ENV KAFKA_SSL_KEYSTORE_PASSWORD=confluent
+ENV KAFKA_SSL_KEY_PASSWORD=confluent
+
 # default user
 ENV KEYCLOAK_USER=keycloak_admin
 ENV KEYCLOAK_PASSWORD=test1234
 
-ENV DEBUG=ALL
 ENV JAVA_TOOLS_OPTS="-Djboss.as.management.blocking.timeout=300"
 
-# for development just use default H2 in-memory DB instance
+# for development you can just use default H2 in-memory DB instance, no setup required for H2
 
 # for production setup Postgres instance or whatever DB you prefer
 #ENV DB_VENDOR=POSTGRES
